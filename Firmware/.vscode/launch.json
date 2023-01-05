@@ -4,6 +4,21 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+            {
+            "cwd": "${workspaceRoot}",
+            "executable": "./build/ODriveFirmware.elf",
+            "name": "Debug with OpenOCD",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "gdbPath": "d:/RT-ThreadStudio/repo/Extract/ToolChain_Support_Packages/ARM/GNU_Tools_for_ARM_Embedded_Processors/10.2.1/bin/arm-none-eabi-gdb.exe",
+            "configFiles": [
+				"D:/Program Files/openocd-v0.12.0-rc2-i686/share/openocd/scripts/interface/cmsis-dap.cfg",
+				"D:/Program Files/openocd-v0.12.0-rc2-i686/share/openocd/scripts/target/stm32f4x.cfg",   
+            ],
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "none"
+        },
         {
             // For the Cortex-Debug extension
             "type": "cortex-debug",

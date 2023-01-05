@@ -4,7 +4,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "taskName": "build",
+            "label": "build",
             "type": "shell",
             "command": "make",
             "group": {
@@ -19,16 +19,28 @@
             ]
         },
         {
-            "taskName": "flash",
+            "label": "flash",
             "type": "shell",
             "command": "make flash",
             "problemMatcher": []
         },
         {
-            "taskName": "openocd",
+            "label": "openocd_flash",
             "type": "shell",
-            "command": "openocd -f \"interface/stlink-v2.cfg\" -f \"target/stm32f4x_stlink.cfg\" -c \"gdb_port 3333; log_output openocd.log\"",
-            "problemMatcher": []
-        }
+            "command": "D:/Program Files/openocd-v0.12.0-rc2-i686/bin/openocd.exe",
+            "args": [
+                "-f",
+                "D:/Program Files/openocd-v0.12.0-rc2-i686/share/openocd/scripts/interface/cmsis-dap.cfg",
+                "-f",
+                "D:/Program Files/openocd-v0.12.0-rc2-i686/share/openocd/scripts/target/stm32f4x.cfg",
+                "-c",
+                "program build/ODriveFirmware.elf verify reset exit"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build",
+            "dependsOn": "Build"
+        },
     ]
 }

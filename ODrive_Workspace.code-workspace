@@ -1,9 +1,15 @@
 {
 	"folders": [
 		{
+			"name": "Firmware",
 			"path": "Firmware"
 		},
 		{
+			"name": "build",
+			"path": "Firmware\\build"
+		},
+		{
+			"name": "tools",
 			"path": "tools"
 		}
 	],
@@ -38,7 +44,22 @@
 			"tuple": "cpp",
 			"type_traits": "cpp",
 			"typeinfo": "cpp",
-			"algorithm": "cpp"
+			"algorithm": "cpp",
+			"cmsis_os.h": "c",
+			"tim.h": "c",
+			"spi.h": "c",
+			"dma.h": "c",
+			"can.h": "c",
+			"adc.h": "c",
+			"stm32f4xx_hal.h": "c",
+			"main.h": "c",
+			"usb_device.h": "c",
+			"gpio.h": "c"
 		}
+	},
+	"extensions": {
+		"recommendations": [
+			"marus25.cortex-debug"
+		]
 	}
 }

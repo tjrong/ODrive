@@ -5,13 +5,14 @@
 BUILD_DIR = build
 FIRMWARE = $(BUILD_DIR)/ODriveFirmware.elf
 FIRMWARE_HEX = $(BUILD_DIR)/ODriveFirmware.hex
+openocd_path = D:/Program Files/openocd-v0.12.0-rc2-i686/bin
 
 all:
 	@tup --quiet --no-environ-check
 
 flash: all
-	openocd -f interface/stlink-v2.cfg -f target/stm32f4x.cfg -c init -c reset\ halt -c flash\ write_image\ erase\ $(FIRMWARE) -c reset\ run -c exit
-
+#	${openocd_path}/openocd -f interface/stlink-v2.cfg -f target/stm32f4x.cfg -c init -c reset\ halt -c flash\ write_image\ erase\ $(FIRMWARE) -c reset\ run -c exit
+	${openocd_path}/openocd -f "D:/Program Files/openocd-v0.12.0-rc2-i686/share/openocd/scripts/interface/cmsis-dap.cfg"   -f  "D:/Program Files/openocd-v0.12.0-rc2-i686/share/openocd/scripts/target/stm32f4x.cfg"  -c init -c reset\ halt -c flash\ write_image\ erase\ $(FIRMWARE) -c reset\ run -c exit
 gdb: all
 	arm-none-eabi-gdb $(FIRMWARE) -x openocd.gdbinit
 
