@@ -2,6 +2,7 @@
 #define __CRC_HPP
 
 #include <limits.h>
+#include <stdint.h>
 
 // Default CRC-8 Polynomial: x^8 + x^5 + x^4 + x^2 + x + 1
 // Can protect a 4 byte payload against toggling of up to 5 bits
