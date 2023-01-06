@@ -232,7 +232,6 @@ void init_configuration(void) {
     } else {
         //printf("load config successful\r\n"); osDelay(5);
     }
-    
     set_motor_config(&motor_config[0], &motors[0]);
     set_motor_config(&motor_config[1], &motors[1]);
 }

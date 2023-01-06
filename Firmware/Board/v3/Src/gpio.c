@@ -88,13 +88,10 @@ void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, M0_nCS_Pin|M1_nCS_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, M1_DC_CAL_Pin|M0_DC_CAL_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(EN_GATE_GPIO_Port, EN_GATE_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : PCPin PCPin PCPin PCPin */
-  GPIO_InitStruct.Pin = M0_nCS_Pin|M1_nCS_Pin|M1_DC_CAL_Pin|M0_DC_CAL_Pin;
+  GPIO_InitStruct.Pin = M0_nCS_Pin|M1_nCS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -107,13 +104,13 @@ void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIO_3_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PAPin PAPin */
-  GPIO_InitStruct.Pin = GPIO_4_Pin|M0_ENC_Z_Pin;
+  GPIO_InitStruct.Pin = GPIO_4_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PBPin PBPin */
-  GPIO_InitStruct.Pin = GPIO_5_Pin|M1_ENC_Z_Pin;
+  GPIO_InitStruct.Pin = GPIO_5_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
@@ -189,8 +186,8 @@ void SetupENCIndexGPIO(){
   HAL_GPIO_Init(M0_ENC_Z_GPIO_Port, &GPIO_InitStruct);
 
   //TODO: Hardcoded EXTI line not portable. Get mapping out of Cubemx by setting EXTI default
-  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 
   /*Configure GPIO pins : PBPin PBPin */
   GPIO_InitStruct.Pin = M1_ENC_Z_Pin;
@@ -199,8 +196,8 @@ void SetupENCIndexGPIO(){
   HAL_GPIO_Init(M1_ENC_Z_GPIO_Port, &GPIO_InitStruct);
 
   //TODO: Hardcoded EXTI line not portable. Get mapping out of Cubemx by setting EXTI default
-  HAL_NVIC_SetPriority(EXTI3_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(EXTI3_IRQn);
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 }
 
 
