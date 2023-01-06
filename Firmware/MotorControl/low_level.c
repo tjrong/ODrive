@@ -1268,6 +1268,10 @@ bool FOC_current(Motor_t* motor, float Id_des, float Iq_des) {
     float Vd = ictrl->v_current_control_integral_d + Ierr_d * ictrl->p_gain;
     float Vq = ictrl->v_current_control_integral_q + Ierr_q * ictrl->p_gain;
 
+    /*
+     * 经过等幅值变换，电压幅值为原来的2/3也即 mod_to_V，为方便SVPWM计算以及积分相防饱和运算，
+     * 将计算的DQ轴电压除以变换后的幅值mod_d和mod_q
+     */
     float mod_to_V = (2.0f / 3.0f) * vbus_voltage;
     float V_to_mod = 1.0f / mod_to_V;
     float mod_d = V_to_mod * Vd;
@@ -1275,6 +1279,15 @@ bool FOC_current(Motor_t* motor, float Id_des, float Iq_des) {
 
     // Vector modulation saturation, lock integrator if saturated
     // TODO make maximum modulation configurable
+    /*
+     * 合成矢量Uref < √3/3 * Udc --> uref < √3/2 * √(vd*vd + vq*vq)
+     * 根据积分项公式可知，偏差存在积分项就会不断累加，为了防止积分项过大饱和，需要进行积分项抗饱和运算利用系数mod_scalefactor,
+     * 经过换算相当于sqrt(modd2+modq2)>0.6928也即mod_scalefactor<1,则认定为饱和，将mod_d/q计算为mod_d/q * mod_scalefactor，
+     * 积分项integral_d/q保持原值不再累加；否则认为积分项未饱和,继续进行积分项运算;
+     * 指的是由两个PID输出的，Vd，Vq 就是把矢量按比例拉回来的。这里为什么不是拉到单位矢量圆r1上呢，因为由于电调的开关噪声，
+     * 需要的PWM死区时间，当然还有控制的PWM载波频率对AD采样时间的影响，使得PWM得最大占空比不能达到100%，最大调制比不能达到1。
+     * 所以MMI 要小于1。所以就要拉回来到r2上。 那么怎么拉回来呢？ *0.8
+     */
     float mod_scalefactor = 0.80f * sqrt3_by_2 * 1.0f / sqrtf(mod_d * mod_d + mod_q * mod_q);
     if (mod_scalefactor < 1.0f) {
         mod_d *= mod_scalefactor;
